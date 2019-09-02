@@ -29,6 +29,21 @@ server.get('/api/users', (req, res) => {
 
 
 //GET findById()
+server.get('/api/users/:id', (req, res) => {
+    const id = req.params.id
+    Data.findById(id)
+    .then(user => {
+        if(user) {
+            res.status(200).json(user)
+        } else {
+            res.status(404).json({ error: 'id not found'})
+        }
+        
+    })
+    .catch(error => {
+        res.status(404).json({error: error})
+    })
+})
 
 //DELETE  remove()
 server.delete('/api/users/:id', (req, res) => {
