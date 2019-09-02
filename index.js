@@ -31,6 +31,16 @@ server.get('/api/users', (req, res) => {
 //GET findById()
 
 //DELETE  remove()
+server.delete('/api/users/:id', (req, res) => {
+    const id = req.params.id;
+    Data.remove(id)
+    .then(user => {
+        res.status(200).json({ message: 'user deleted'})
+    })
+    .catch(error => {
+        res.status(500).json({ error: 'error removing the hub'})
+    })
+})
 
 //PUT update()
 server.put('/api/users/:id', (req, res) => {
