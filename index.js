@@ -3,9 +3,20 @@ const Data = require('./data/db.js');
 const server = express();
 server.use(express.json());
 
-//POST
+//POST insert()
+server.post('/api/users', (req, res) => {
+    const addUsers = req.body;
+    console.log('addUser', addUsers)
+    Data.insert(addUsers)
+    .then(user => {
+        res.status(201).json(user)
+    })
+    .catch(error => {
+        res.status(500).json(error)
+    })
+})
 
-//GET
+//GET find()
 server.get('/api/users', (req, res) => {
     Data.find()
     .then(user => {
@@ -17,11 +28,27 @@ server.get('/api/users', (req, res) => {
 })
 
 
-//GET
+//GET findById()
 
-//DELETE
+//DELETE  remove()
 
-//PUT
+//PUT update()
+server.put('/api/users/:id', (req, res) => {
+    const { id } = req.params;
+    const change = req.body;
+    Data.update(id, change)
+    .then(update => {
+        if(update) {
+            res.status(200).json(update)
+        } else {
+            res.status(404).json({ message: 'user not fond'})
+        }
+        
+    })
+    .catch(error => {
+        res.status(500).json({ error: 'error updating the hub'})
+    })
+})
 
 
 const port = 8000;
